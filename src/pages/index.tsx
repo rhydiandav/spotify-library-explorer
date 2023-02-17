@@ -1,5 +1,4 @@
 import Head from "next/head";
-import styles from "@/styles/Home.module.css";
 import { LOGIN_URL } from "consts";
 
 type HomeInitialProps = {
@@ -19,7 +18,7 @@ export default function Home({ access_token }: HomeProps) {
         <title>Spotify Library Explorer</title>
       </Head>
       <main>
-        <h1 className={styles.title}>Spotify Library Explorer</h1>
+        <h1>Spotify Library Explorer</h1>
         {access_token ? (
           <p>Access Token Found</p>
         ) : (
