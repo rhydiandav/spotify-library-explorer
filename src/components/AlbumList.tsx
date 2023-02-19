@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { ImageList, ImageListItem, ImageListItemBar } from "@mui/material";
 
 type AlbumListProps = {
   access_token: string;
@@ -22,18 +23,20 @@ export const AlbumList = ({ access_token }: AlbumListProps) => {
   }, []);
 
   return (
-    <>
-      {albums.length ? (
-        albums.map(({ album }) => {
-          return (
-            <div key={album.id}>
-              <p>{album.name}</p>
-            </div>
-          );
-        })
-      ) : (
-        <p>No albums</p>
-      )}
-    </>
+    <ImageList sx={{ width: "100%", height: "100%" }} cols={5}>
+      {albums.map(({ album }) => (
+        <ImageListItem key={album.id}>
+          <img
+            src={`${album.images[0].url}?w=164&h=164&fit=crop&auto=format`}
+            alt={album.name}
+            loading="lazy"
+          />
+          <ImageListItemBar
+            title={album.name}
+            subtitle={album.artists[0].name}
+          />
+        </ImageListItem>
+      ))}
+    </ImageList>
   );
 };
