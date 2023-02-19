@@ -1,7 +1,6 @@
 import Head from "next/head";
-import { LOGIN_URL } from "consts";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { LoginButton } from "@/components/LoginButton";
+import { AlbumList } from "@/components/AlbumList";
 
 type HomeInitialProps = {
   query: {
@@ -14,23 +13,6 @@ type HomeProps = {
 };
 
 export default function Home({ access_token }: HomeProps) {
-  const [albums, setAlbums] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get("https://api.spotify.com/v1/me/albums", {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        setAlbums(response.data.items);
-      });
-  }, []);
-
-  console.log(albums);
-
   return (
     <>
       <Head>
@@ -39,18 +21,10 @@ export default function Home({ access_token }: HomeProps) {
       <main>
         <h1>Spotify Library Explorer</h1>
         {access_token ? (
-          <p>Access Token Found</p>
+          <AlbumList access_token={access_token} />
         ) : (
-          <a href={LOGIN_URL}>Login with Spotify</a>
+          <LoginButton />
         )}
-        {albums.length &&
-          albums.map(({ album }) => {
-            return (
-              <div key={album.id}>
-                <p>{album.name}</p>
-              </div>
-            );
-          })}
       </main>
     </>
   );
